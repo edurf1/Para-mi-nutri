@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Para el amor de mi vida, llevamos juntos, llevamos juntos</title>
+    <style>
+        /* Fondo con degradado animado */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad0c4, #ffd1ff);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* El Árbol */
+        .tree-container {
+            position: relative;
+            font-size: 120px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            z-index: 5;
+        }
+
+        .tree-container:hover {
+            transform: scale(1.1);
+        }
+
+        .hearts-on-tree {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 40px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        /* Texto y Contador */
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            backdrop-filter: blur(5px);
+            border: 2px solid #ffffff;
+            z-index: 10;
+        }
+
+        h1 { color: #d81b60; margin-bottom: 10px; font-size: 24px; }
+
+        #timer {
+            font-size: 1.2rem;
+            color: #ad1457;
+            font-weight: bold;
+        }
+
+        /* Lluvia de corazones */
+        .falling-heart {
+            position: absolute;
+            color: #ff4081;
+            font-size: 20px;
+            top: -20px;
+            z-index: 1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tree-container">
+        🌳
+        <div class="hearts-on-tree" style="top: -20px; left: 20px;">🌸</div>
+        <div class="hearts-on-tree" style="top: 10px; left: 60px;">💖</div>
+        <div class="hearts-on-tree" style="top: 10px; left: -10px;">💕</div>
+    </div>
+
+    <div class="card">
+        <h1>Para el amor de mi vida ❤️</h1>
+        <p id="timer">Contando cada segundo...</p>
+        <p style="font-style: italic; color: #ff80ab;">"Después de tantos días juntos, después de tantos momentos, cada segundo a tu lado sigue siendo lo mas importante para mi. Espero que este contador nunca se detenga."</p>
+    </div>
+
+    <script>
+        // CONFIGURA TU FECHA AQUÍ
+        // Nota: Enero es 0, Febrero es 1, etc.
+        const fechaInicio = new Date(2018, 10, 14, 0, 0, 0); 
+
+        function actualizarContador() {
+            const ahora = new Date();
+            const diff = ahora - fechaInicio;
+
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / 1000 / 60) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+
+            document.getElementById("timer").innerHTML = 
+                `${d} días, ${h} horas, ${m} min, ${s} seg`;
+        }
+        setInterval(actualizarContador, 1000);
+
+        // Generador de lluvia de corazones
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('falling-heart');
+            const tipos = ['❤️','💖','💕','💗','🌸'];
+            heart.innerHTML = tipos[Math.floor(Math.random() * tipos.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 6000);
+        }
+        setInterval(createHeart, 400);
+    </script>
+</body>
+</html>
