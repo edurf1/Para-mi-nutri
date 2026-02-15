@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi amor</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffd1ff, #a18cd1);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Contenedor de las 3 fotos */
+        .photo-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            z-index: 5;
+        }
+
+        .photo-box {
+            position: relative;
+            text-align: center;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .photo-box img {
+            width: 100px; /* Tamaño ajustable */
+            height: 130px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 4px solid white;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Emojis debajo de cada foto */
+        .photo-footer {
+            font-size: 20px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* Variación de animación para que no floten todas igual */
+        .photo-box:nth-child(2) { animation-delay: 0.5s; transform: scale(1.1); }
+        .photo-box:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        /* Tarjeta del mensaje */
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            width: 85%;
+            max-width: 350px;
+            z-index: 10;
+        }
+
+        h1 { color: #d81b60; margin: 0 0 10px 0; font-size: 20px; }
+        #timer { font-size: 1.1rem; color: #ad1457; font-weight: bold; }
+
+        /* Lluvia de corazones */
+        .falling-heart {
+            position: absolute;
+            top: -20px;
+            z-index: 1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="photo-display">
+        <div class="photo-box">
+            <img src="foto1.jpg" alt="Foto 1">
+            <span class="photo-footer">❤️💖</span>
+        </div>
+        <div class="photo-box">
+            <img src="foto2.jpg" alt="Foto 2">
+            <span class="photo-footer">🥰💕</span>
+        </div>
+        <div class="photo-box">
+            <img src="foto3.jpg" alt="Foto 3">
+            <span class="photo-footer">💗✨</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h1>Para el amor de mi vida ❤️</h1>
+        <span id="timer">Calculando...</span>
+        <p class="quote">"Después de tantos días juntos, después de tantos momentos, cada segundo a tu lado sigue siendo lo mas importante para mi y es como un regalo. Espero que este contador nunca se detenga"</p>
+    </div>
+
+    <script>
+        // --- CONFIGURA TU FECHA AQUÍ ---
+        const fechaInicio = new Date(2018, 10, 14, 0, 0, 0); 
+
+        function actualizarContador() {
+            const ahora = new Date();
+            const diff = ahora - fechaInicio;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / 1000 / 60) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+            document.getElementById("timer").innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+        }
+        setInterval(actualizarContador, 1000);
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('falling-heart');
+            const emojis = ['❤️','💖','💕','💗'];
+            heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            heart.style.fontSize = Math.random() * 15 + 15 + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
